@@ -1,7 +1,9 @@
 import random
 
 def random_dna(n, nucleotides = ["A", "C", "G", "T"]):
-    return [random.choice(nucleotides) for i in range(n)]
+    return "".join([random.choice(nucleotides) for i in range(n)])
+
+
 
 def get_kmers(seq, k):
     kmers = []
@@ -10,12 +12,12 @@ def get_kmers(seq, k):
         kmers.append(seq[i:i+k])
     return kmers
 
+
+
 # a function to get the counts
 def get_kmer_counts(kmers):
-
     # this will store the kmers and their counts
     kmer_counts_dict = {}
-
     # go through each kmer
     for kmer in kmers:
         # if we don't have it in the dictionary
@@ -25,5 +27,4 @@ def get_kmer_counts(kmers):
         else:
             # if we do, increase the number of times we've seen it by 
             kmer_counts_dict[kmer] += 1
-    
     return kmer_counts_dict 
