@@ -1,0 +1,165 @@
+
+
+Here are the function written for the analysis for far, with an example:
+
+```{python}
+
+import random
+random.seed(8675309)
+```
+
+Firstly, we'll need a way to get create random DNA:
+
+```{python}
+
+"""
+    generates random DNA.
+
+"""
+def random_dna(n, nucleotides = ["A", "C", "G", "T"]):
+    return "".join([random.choice(nucleotides) for i in range(n)])
+
+ex_dna = random_dna(10)
+
+ex_dna
+```
+
+Next, we will want to get the kmers in that DNA:
+
+```{python}
+
+"""
+    gets the kmers from a DNA strand.
+
+"""
+def get_kmers(seq, k):
+    kmers = []
+    end = len(seq)+1
+    for i in range(0, end-k):
+        kmers.append(seq[i:i+k])
+    return kmers
+
+ex_kmers = get_kmers(ex_dna, 3)
+
+ex_kmers
+```
+
+Next, we may want to count the kmers, so we will add it while we're at it.
+
+```{python}
+
+"""
+    counts the kmers in a DNA strand.
+
+"""
+def get_kmer_counts(kmers):
+    # this will store the kmers and their counts
+    kmer_counts_dict = {}
+    # go through each kmer
+    for kmer in kmers:
+        # if we don't have it in the dictionary
+        if kmer not in kmer_counts_dict.keys():
+            # give it a count of one
+            kmer_counts_dict[kmer] = 1
+        else:
+            # if we do, increase the number of times we've seen it by 
+            kmer_counts_dict[kmer] += 1
+    return kmer_counts_dict
+
+ex_kmer_counts = get_kmer_counts(ex_kmers)
+
+ex_kmer_counts
+```
+
+If we're going to hide progressively more divergent sequences in real DNA, we will need a function to do so withouth changing the overall sequence length. We can do so with the following function:
+
+
+
+```{python}
+
+"""
+    takes a sequence and hides it in another sequence, preserving the overall length (writing over sequences)
+    to do so.
+
+"""
+def insert_sequence(seq, dna, insert_index = None):
+
+    # if we don't specify were, make it random
+    if not insert_index:
+        # we need to pick a random spot to insert it that doesn't go over the edge
+        insert_location = random.choice(range(0, len(dna) - (len(seq))+1))
+    else:
+        insert_location = insert_index
+
+    # the left/right boundaries are 0 and as close to the end as 
+    # we can get without going over
+    left_boundary = 0
+    right_boundary = len(dna) - len(seq)
+
+
+    # if it's at the start or the end
+    if insert_index == left_boundary:
+        # insert the sequence at the start
+        left = seq
+        right = dna[len(seq):len(dna)]
+        result = "".join([left, right])
+
+
+    elif insert_index == right_boundary:
+        # insert the sequence at the end
+        left = dna[0:right_boundary]
+        right = seq
+        result = "".join([left, right])
+    
+
+    # if it's in the middle somewhere
+    else:   
+        # get the sequence before that insertion point 
+        before_insertion = dna[0:insert_location]
+        # get the sequence after
+        after_insertion = dna[insert_location+len(seq):len(dna)]
+        # join them into a strand
+        result =  "".join([before_insertion, seq, after_insertion])
+
+    # make sure we didn't madify the length
+    assert len(result) == len(dna)
+
+
+    return result
+```
+
+This is a little more involved and I don't want to just check it by eye, so we will set up some tests and edge cases:
+
+```{python}
+
+# a starting sequence
+before = "GCAAGAACTATATACACACTTAGCAAGTTACGTTTCTTAT"
+# something to kide in it
+to_hide = "(THADRYAN)"
+
+# left-most position
+after = insert_sequence(to_hide, before, 0)
+print("before: ", before)
+print("after:    ", after)
+
+# right-most position
+after = insert_sequence(to_hide, before, 30)
+print("before: ", before)
+print("after:    ", after)
+
+# random position
+after = insert_sequence(to_hide, before)
+print("before: ", before)
+print("after:    ", after)
+
+# test the edge-cases
+edge_case1 = "(THADRYAN)TATACACACTTAGCAAGTTACGTTTCTTAT"
+edge_case2 = "GCAAGAACTATATACACACTTAGCAAGTTA(THADRYAN)"
+
+# run it a bunch to see if they come up and are handled ok
+test_cases = [insert_sequence(to_hide, before) for i in range(10000)]
+
+print(edge_case1 in test_cases)
+print(edge_case2 in test_cases)
+```
+
