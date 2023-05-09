@@ -2,9 +2,7 @@ import random
 
 
 """
-
     generates random DNA.
-
 
 """
 def random_dna(n, nucleotides = ["A", "C", "G", "T"]):
@@ -13,9 +11,7 @@ def random_dna(n, nucleotides = ["A", "C", "G", "T"]):
 
 
 """
-
     gets the kmers from a DNA strand.
-
 
 """
 def get_kmers(seq, k):
@@ -28,7 +24,6 @@ def get_kmers(seq, k):
 
 
 """
-
     counts the kmers in a DNA strand.
 
 """
@@ -49,7 +44,6 @@ def get_kmer_counts(kmers):
 
 
 """
-
     takes a sequence and hides it in another sequence, preserving the overall length (writing over sequences)
     to do so.
 
