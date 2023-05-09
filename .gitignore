@@ -3,3 +3,5 @@
 !*.py
 !*.md
 !.gitignore
+!.qmd
+!.docx
