@@ -1,10 +1,13 @@
 import random
 
+
+""" """
 def random_dna(n, nucleotides = ["A", "C", "G", "T"]):
     return "".join([random.choice(nucleotides) for i in range(n)])
 
 
 
+""" """
 def get_kmers(seq, k):
     kmers = []
     end = len(seq)+1
@@ -14,7 +17,7 @@ def get_kmers(seq, k):
 
 
 
-# a function to get the counts
+""" """
 def get_kmer_counts(kmers):
     # this will store the kmers and their counts
     kmer_counts_dict = {}
@@ -28,3 +31,8 @@ def get_kmer_counts(kmers):
             # if we do, increase the number of times we've seen it by 
             kmer_counts_dict[kmer] += 1
     return kmer_counts_dict 
+
+""" """
+# def insert_sequence(seq, dna):
+#     insert_location = random.choice(range(0, len(dna) - len(seq)))
+#     return insert_location
