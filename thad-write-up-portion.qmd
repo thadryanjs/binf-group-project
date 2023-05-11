@@ -1,4 +1,8 @@
+---
+author: "Hello"
+---
 
+#  Title
 
 Here are the function written for the analysis for far, with an example:
 
@@ -8,14 +12,12 @@ import random
 random.seed(8675309)
 ```
 
+
+
 Firstly, we'll need a way to get create random DNA:
 
 ```{python}
-
-"""
-    generates random DNA.
-
-"""
+# generates random DNA.
 def random_dna(n, nucleotides = ["A", "C", "G", "T"]):
     return "".join([random.choice(nucleotides) for i in range(n)])
 
@@ -24,14 +26,11 @@ ex_dna = random_dna(10)
 ex_dna
 ```
 
+
 Next, we will want to get the kmers in that DNA:
 
 ```{python}
-
-"""
-    gets the kmers from a DNA strand.
-
-"""
+# gets the kmers from a DNA strand.
 def get_kmers(seq, k):
     kmers = []
     end = len(seq)+1
@@ -44,14 +43,13 @@ ex_kmers = get_kmers(ex_dna, 3)
 ex_kmers
 ```
 
+
 Next, we may want to count the kmers, so we will add it while we're at it.
 
 ```{python}
 
-"""
-    counts the kmers in a DNA strand.
+#  counts the kmers in a DNA strand.
 
-"""
 def get_kmer_counts(kmers):
     # this will store the kmers and their counts
     kmer_counts_dict = {}
@@ -77,11 +75,10 @@ If we're going to hide progressively more divergent sequences in real DNA, we wi
 
 ```{python}
 
-"""
-    takes a sequence and hides it in another sequence, preserving the overall length (writing over sequences)
-    to do so.
+# takes a sequence and hides it in another sequence,
+# preserving the overall length (writing over sequences)
+# to do so.
 
-"""
 def insert_sequence(seq, dna, insert_index = None):
 
     # if we don't specify were, make it random
@@ -162,4 +159,3 @@ test_cases = [insert_sequence(to_hide, before) for i in range(10000)]
 print(edge_case1 in test_cases)
 print(edge_case2 in test_cases)
 ```
-
