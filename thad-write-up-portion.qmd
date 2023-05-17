@@ -1,20 +1,6 @@
----
-author: "Hello"
----
-
-#  Title
-
-Here are the function written for the analysis for far, with an example:
-
-```{python}
-
-import random
-random.seed(8675309)
-```
 
 
-
-Firstly, we'll need a way to get create random DNA:
+We've written several function to prepare the analysis with: a function to generate random sequences of DNA of length _i_, one to compute all the possible kmers of length _k_ in a given sequence, and function to count the instances of all the kmers. More importantly we've written a function to insert new kmers into a sequence while preserving the overall length. We will use this to evaluate our ability to detect increasingly divergent sequences in DNA.
 
 ```{python}
 # generates random DNA.
