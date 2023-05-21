@@ -89,3 +89,22 @@ def insert_sequence(seq, dna, insert_index = None):
 
 
     return result
+
+"""
+    reads in the fasta file we're experimenting on
+
+"""
+def read_fasta(filename = "data/U00096.3.fasta"):
+    # open the file
+    with open(filename, "r") as input_stream:
+        # read in the lines
+        text = input_stream.readlines()
+        # the header will be first
+        header = text[0].rstrip()
+        # the sequences are the rest
+        raw_sequences = text[1:]
+        return {
+            "header": header,
+            # they're in a list, split on newlines. We remove the newlines and join into one long sequence
+            "sequence": "".join([l.strip() for l in raw_sequences])
+        }
