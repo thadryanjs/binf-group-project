@@ -61,15 +61,20 @@ for f in mod_files:
 # example motifs
 # findMotifs.pl targets.fa fasta motifResults/ -fasta background.fa
 for f in mod_files:
-
+    seq = f.split("_")[1]
+    len_arg = "-len " + str(len(seq))
+    print(len_arg)
     subprocess.call([
         "findMotifs.pl",
         "data/U00096.3.fasta",
         "fasta",
-        "homer-results/motifs_" + f.split("_")[1],
+        "homer-results/motifs_" + seq,
         "-fasta",
-        "data/modified/" + f
+        "data/modified/" + f,
+        "-len " + str(len(seq))
     ])
+
+print("end")
 
 # %%
 
