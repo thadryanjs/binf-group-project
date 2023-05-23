@@ -108,3 +108,4 @@ def read_fasta(filename = "data/U00096.3.fasta"):
             # they're in a list, split on newlines. We remove the newlines and join into one long sequence
             "sequence": "".join([l.strip() for l in raw_sequences])
         }
+    
