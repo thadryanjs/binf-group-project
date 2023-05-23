@@ -109,3 +109,55 @@ def read_fasta(filename = "data/U00096.3.fasta"):
             "sequence": "".join([l.strip() for l in raw_sequences])
         }
     
+
+
+"""
+    degenerates a sequence outside the promoter region
+"""
+def degenerate_outside_region(seq, reg_start, reg_length):
+
+    seq_before = seq[0:reg_start]
+    seq_after = seq[(reg_start+reg_length):len(seq)]
+    promoter = seq[reg_start:(reg_start+reg_length)]
+    
+    mutate_choice = random.choice([0,1])
+    # randomly decide to mutate pre-promoter or post-promoter
+    if mutate_choice == 0:
+        seq_to_mutate = seq_before
+    else:
+        seq_to_mutate = seq_after
+
+    seq_to_mutate_chars = [c for c in seq_to_mutate]
+
+    index_to_mutate = random.choice([i for i in range(len(seq_to_mutate_chars))])
+
+    nucleotide_observed = seq_to_mutate[index_to_mutate]
+
+    possible_mutations = [n for n in ["A", "C", "G", "T"] if n != nucleotide_observed]
+
+    nuc_to_insert = random.choice(possible_mutations)
+
+    seq_to_mutate_chars[index_to_mutate] = nuc_to_insert
+
+    new_region = "".join(seq_to_mutate_chars)
+
+    if mutate_choice == 0:
+        new_seq = "".join([new_region, promoter, seq_after])
+    else:
+        new_seq = "".join([seq_before, promoter, new_region])
+    return new_seq
+
+
+
+"""
+    chooses a random region of length x to be a promoter region
+"""
+def select_random_promoter(seq, length = 15):
+    # it can start at zer0 but can't start so that it goes off the end
+    sample_space = [i for i in range(length, len(seq) - length)]
+    start_location = random.choice(sample_space)
+    return {
+        "promoter": seq[start_location:start_location + length],
+        "promoter_start": start_location,
+        "promoter_length": 15
+    }
