@@ -119,7 +119,7 @@ def degenerate_outside_region(seq, reg_start, reg_length):
     seq_before = seq[0:reg_start]
     seq_after = seq[(reg_start+reg_length):len(seq)]
     promoter = seq[reg_start:(reg_start+reg_length)]
-    
+
     mutate_choice = random.choice([0,1])
     # randomly decide to mutate pre-promoter or post-promoter
     if mutate_choice == 0:
@@ -161,3 +161,27 @@ def select_random_promoter(seq, length = 15):
         "promoter_start": start_location,
         "promoter_length": 15
     }
+
+def degenerate_inside_region(seq, reg_start, reg_length):
+
+    seq_before = seq[0:reg_start]
+    seq_after = seq[(reg_start+reg_length):len(seq)]
+    seq_to_mutate = seq[reg_start:(reg_start+reg_length)]
+
+    seq_to_mutate_chars = [c for c in seq_to_mutate]
+
+    index_to_mutate = random.choice([i for i in range(len(seq_to_mutate_chars))])
+
+    nucleotide_observed = seq_to_mutate[index_to_mutate]
+
+    possible_mutations = [n for n in ["A", "C", "G", "T"] if n != nucleotide_observed]
+
+    nuc_to_insert = random.choice(possible_mutations)
+
+    seq_to_mutate_chars[index_to_mutate] = nuc_to_insert
+
+    new_promoter = "".join(seq_to_mutate_chars)
+
+    new_sequence = "".join([seq_before, new_promoter, seq_after])
+
+    return new_sequence
